@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 
-const PlantSearchBar = ({ plants, setFilteredPlants }) => {
+function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleInputChange = (event) => {
+  const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    const filteredPlants = plants.filter((plant) => {
-      return plant.name.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-    setFilteredPlants(filteredPlants);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    props.onSubmit(searchTerm);
   };
 
   return (
     <div>
-      <label htmlFor="search">Search for plants:</label>
-      <input
-        id="search"
-        type="text"
-        placeholder="Enter plant name"
-        value={searchTerm}
-        onChange={handleInputChange}
-      />
+      <form onSubmit={handleSearchSubmit}>
+        <input type="text" value={searchTerm} onChange={handleSearchChange} />
+        <button type="submit">Search</button>
+      </form>
     </div>
   );
-};
+}
 
-export default PlantSearchBar;
+export default SearchBar;
